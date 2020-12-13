@@ -67,7 +67,7 @@ sleep 5
 
 touch ./_transferfile
 
-echo "!#/bin/bash" >> ./_transferfile
+echo "#!/bin/bash" >> ./_transferfile
 
 echo "site=$remotesite" >> ./_transferfile
 
