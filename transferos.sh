@@ -65,9 +65,19 @@ rsync -av --progress --inplace --rsh='ssh -p 22' ./step2.sh $remoteuser@$remoteh
 
 sleep 5
 
+touch ./_transferfile
+
+echo "!#/bin/bash" >> ./_transferfile
+
+echo "site=$remotesite" >> ./_transferfile
+
+rsync -av --progress --inplace --rsh='ssh -p 22' ./_transferfile $remoteuser@$remotehost:/tmp/
+
 echo "Transfering jobs are done, now step 2 jobs are launching..."
 
-ssh $remoteuser@$remotehost 'chmod +x /home/admin/web/$remotesite/step2.sh; bash /home/admin/web/$remotesite/step2.sh'
+ssh $remoteuser@$remotehost 'chmod +x /tmp/_transferfile; bash /tmp/_transferfile; chmod +x /home/admin/web/$site/step2.sh; bash /home/admin/web/$site/step2.sh; rm -f /tmp/_transferfile'
 
+sleep 10
 
+rm -f ./_transferfile
 
